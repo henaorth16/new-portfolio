@@ -1,0 +1,177 @@
+@import "tailwindcss";
+
+/* ───────── Design Tokens / Variables ───────── */
+:root {
+  --board: #1d1f1e;
+  --chalk: #f2f0e8;
+  --chalk-2: rgba(242, 240, 232, 0.76);
+  --chalk-3: rgba(242, 240, 232, 0.42);
+  --yellow: #f38a8a;
+
+  --font-body: 'Patrick Hand', 'Kalam', cursive;
+  --font-display: 'Kalam', 'Patrick Hand', cursive;
+  --font-hand: 'Caveat', 'Kalam', cursive;
+
+  --pad: clamp(18px, 5.2vw, 44px);
+}
+
+@theme {
+  --color-board: var(--board);
+  --color-chalk: var(--chalk);
+  --color-chalk-2: var(--chalk-2);
+  --color-chalk-3: var(--chalk-3);
+  --color-yellow: var(--yellow);
+
+  --font-body: var(--font-body);
+  --font-display: var(--font-display);
+  --font-hand: var(--font-hand);
+
+  --spacing-pad: var(--pad);
+}
+
+/* ───────── Base Styles ───────── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: var(--board);
+  color: var(--chalk);
+  font-family: var(--font-body);
+  font-size: clamp(1.05rem, 1.1vw + 0.8rem, 1.3rem);
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+:focus-visible {
+  outline: 2px dashed var(--yellow);
+  outline-offset: 4px;
+}
+
+/* ───────── Chalkboard Surfaces & Noise ───────── */
+.backdrop-base {
+  background:
+    radial-gradient(60% 40% at 18% 22%, rgba(255, 255, 255, 0.05), transparent 70%),
+    radial-gradient(50% 35% at 82% 70%, rgba(255, 255, 255, 0.04), transparent 70%),
+    radial-gradient(35% 20% at 55% 95%, rgba(255, 255, 255, 0.035), transparent 70%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
+    var(--board);
+}
+
+.backdrop-vignette {
+  background: radial-gradient(120% 90% at 50% 40%, transparent 55%, rgba(0, 0, 0, 0.45) 100%);
+}
+
+/* ───────── Chalk Effects ───────── */
+.chalk-icon,
+.chalk-art {
+  filter: url(#chalk);
+  overflow: visible;
+}
+
+.chalky {
+  filter: url(#chalk);
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.55), 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.chalk-border {
+  stroke-width: 2.2;
+  filter: url(#chalk);
+}
+
+.chalk-border .faint {
+  stroke-width: 1.1;
+  opacity: 0.5;
+}
+
+.chalk-line {
+  stroke: var(--chalk-2);
+  stroke-width: 2;
+  filter: url(#chalk);
+}
+
+.chalk-line .faint {
+  stroke-width: 1;
+  opacity: 0.45;
+}
+
+.underline-svg {
+  filter: url(#chalk);
+}
+
+/* ───────── Reveal / Draw Animations ───────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.7s ease var(--d, 0ms),
+    transform 0.7s ease var(--d, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.is-visible .draw,
+.always .draw {
+  animation: draw 0.9s ease-out var(--d, 0ms) forwards;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ───────── Hero SVG Dash Animation on Hover ───────── */
+.hero-svg-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 100%;
+}
+
+.hero-svg-wrapper svg {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  overflow: visible;
+  filter: url(#chalk);
+}
+
+
+
+@keyframes chalk-dash-crawl {
+  to {
+    stroke-dashoffset: 36;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .draw {
+    stroke-dashoffset: 0;
+    animation: none !important;
+  }
+  .hero-svg-wrapper:hover svg path {
+    animation: none;
+  }
+}
