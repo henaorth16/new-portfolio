@@ -132,32 +132,6 @@ body {
   }
 }
 
-/* ───────── Hero SVG Dash Animation on Hover ───────── */
-.hero-svg-wrapper {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  width: 100%;
-}
-
-.hero-svg-wrapper svg {
-  width: 100%;
-  max-width: 400px;
-  height: auto;
-  overflow: visible;
-  filter: url(#chalk);
-}
-
-
-
-@keyframes chalk-dash-crawl {
-  to {
-    stroke-dashoffset: 36;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -170,8 +144,5 @@ body {
   .draw {
     stroke-dashoffset: 0;
     animation: none !important;
-  }
-  .hero-svg-wrapper:hover svg path {
-    animation: none;
   }
 }

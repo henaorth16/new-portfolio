@@ -32,8 +32,8 @@ export default function App() {
       })
 
     const imagesPromise = Promise.all(imageList.map(preloadImage))
-    const minTimePromise = new Promise((resolve) => setTimeout(resolve, 800))
-    const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 4000))
+    const minTimePromise = new Promise((resolve) => setTimeout(resolve, 200))
+    const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 2500))
 
     Promise.race([
       Promise.all([imagesPromise, minTimePromise]),
@@ -43,7 +43,7 @@ export default function App() {
         setLoadingState('fading')
         setTimeout(() => {
           if (isMounted) setLoadingState('loaded')
-        }, 700)
+        }, 300)
       }
     })
 
@@ -64,7 +64,7 @@ export default function App() {
 
       {/* Main app content: revealed once all images are preloaded */}
       <div
-        className={`transition-opacity duration-700 ${
+        className={`transition-opacity duration-300 ${
           loadingState === 'loading' ? 'opacity-0' : 'opacity-100'
         }`}
       >

@@ -7,7 +7,7 @@ export interface LoaderProps {
 export default function Loader({ fadingOut = false }: LoaderProps) {
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-base transition-opacity duration-700 ease-out ${
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-base transition-opacity duration-300 ease-out ${
         fadingOut ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
       aria-label="Loading portfolio"

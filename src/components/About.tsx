@@ -45,6 +45,7 @@ export default function About() {
             src={`${import.meta.env.BASE_URL}draw-hero.webm`}
             muted
             playsInline
+            preload="none"
             className="w-full h-auto block aspect-video object-cover mix-blend-screen"
           />
         </ChalkBox>

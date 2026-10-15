@@ -25,12 +25,17 @@ export default function Hero() {
         </div>
       </Reveal>
 
-      <Reveal className="hero-portrait flex justify-center order-2 lg:order-none" delay={150}>
-        <div
-          className="hero-svg-wrapper min-h-[320px]"
-          // dangerouslySetInnerHTML={{ __html: svgHtml }}
+      <Reveal className="hero-portrait flex justify-center items-center order-2 lg:order-none" delay={150}>
+        <img
+          src={images.hero}
+          alt={`Portrait of ${profile.name}`}
+          width={500}
+          height={500}
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
+          className="w-full max-w-[320px] md:max-w-[380px] h-auto object-contain select-none pointer-events-none drop-shadow-md"
         />
-        <img src={images.hero} alt="alt"  />
       </Reveal>
 
       <Reveal className="hero-side flex flex-col md:flex-row lg:flex-col items-center justify-between lg:justify-start flex-wrap gap-[38px] order-3 lg:order-none" delay={300}>
