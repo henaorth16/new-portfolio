@@ -9,6 +9,7 @@ import {
   profile,
 } from '../data'
 import { ChalkBox, Reveal, Underline } from './Chalk'
+import GitHubContributions from './GitHubContributions'
 import { Icon } from './Icon'
 import { SectionTitle } from './Projects'
 
@@ -244,6 +245,9 @@ export default function About() {
           ))}
         </div>
       </Reveal>
+
+      {/* GitHub Contributions Graph */}
+      <GitHubContributions />
 
       {/* Call to action note */}
       <Reveal delay={140} className="mt-9">
