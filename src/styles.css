@@ -3,8 +3,8 @@
 /* ───────── Design Tokens / Variables ───────── */
 :root {
   --board: #1d1f1e;
-  --chalk: #f2f0e8;
-  --chalk-2: rgba(242, 240, 232, 0.76);
+  --chalk: #cecece;
+  --chalk-2: rgba(223, 221, 214, 0.76);
   --chalk-3: rgba(242, 240, 232, 0.42);
   --red: #f38a8a;
 

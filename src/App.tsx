@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { images, profile } from './data'
 import { useScrollSpy } from './lib/hooks'
 import { ChalkDefs, ChalkLine } from './components/Chalk'
+import { Analytics } from '@vercel/analytics/react'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import Projects from './components/Projects'
@@ -56,6 +57,7 @@ export default function App() {
   return (
     <>
       <ChalkDefs />
+      <Analytics />
 
       {/* Board surface: base colour + noise always underneath */}
       <div className="fixed inset-0 z-0 pointer-events-none backdrop-base" aria-hidden="true" />

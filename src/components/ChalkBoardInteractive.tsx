@@ -23,7 +23,7 @@ interface EraseStroke {
 }
 
 const CHALK_COLORS = [
-  { name: 'White', value: '#f2f0e8' },
+  { name: 'White', value: '#cecece' },
   { name: 'Warm red', value: '#f38a8a' },
   { name: 'Sky Chalk', value: '#93c5fd' },
 ]
@@ -44,6 +44,135 @@ function pointsToSvgPath(points: Point[]): string {
   return d
 }
 
+/**
+ * Deterministic PRNG for consistent, repeatable chalk grain on every redraw
+ */
+function chalkSeed(x1: number, y1: number, x2: number, y2: number): number {
+  return Math.abs(Math.floor(x1 * 37.3 + y1 * 59.7 + x2 * 97.1 + y2 * 131.9))
+}
+
+function nextRandom(state: { seed: number }): number {
+  state.seed = (state.seed * 9301 + 49297) % 233280
+  return state.seed / 233280
+}
+
+/**
+ * Draws an authentic chalk dab / dot when user clicks or taps in place
+ */
+function drawChalkDot(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  color: string,
+  width: number
+) {
+  ctx.save()
+  ctx.globalCompositeOperation = 'source-over'
+  ctx.fillStyle = color
+  ctx.strokeStyle = color
+  ctx.shadowBlur = 0
+  ctx.shadowColor = 'transparent'
+
+  // Translucent chalk core
+  ctx.globalAlpha = 0.65
+  ctx.beginPath()
+  ctx.arc(x, y, width * 0.45, 0, Math.PI * 2)
+  ctx.fill()
+
+  // Crisp calcium carbonate specks around the dab
+  const rng = { seed: Math.abs(Math.floor(x * 43.1 + y * 71.7)) }
+  const numSpecks = 16
+  for (let i = 0; i < numSpecks; i++) {
+    const angle = nextRandom(rng) * Math.PI * 2
+    const dist = nextRandom(rng) * width * 0.75
+    const px = x + Math.cos(angle) * dist
+    const py = y + Math.sin(angle) * dist
+    const size = 0.7 + nextRandom(rng) * 0.9
+    ctx.globalAlpha = 0.25 + nextRandom(rng) * 0.5
+    ctx.fillRect(px - size / 2, py - size / 2, size, size)
+  }
+  ctx.restore()
+}
+
+/**
+ * Draws a realistic chalk segment between two points with authentic chalk tooth & grain.
+ * NO blur, NO soft glow — crisp, powdery, realistic chalk texture.
+ */
+function drawChalkSegment(
+  ctx: CanvasRenderingContext2D,
+  p1: Point,
+  p2: Point,
+  color: string,
+  width: number
+) {
+  const dx = p2.x - p1.x
+  const dy = p2.y - p1.y
+  const dist = Math.hypot(dx, dy)
+
+  if (dist < 0.25) {
+    drawChalkDot(ctx, p1.x, p1.y, color, width)
+    return
+  }
+
+  const nx = -dy / dist
+  const ny = dx / dist
+
+  ctx.save()
+  ctx.globalCompositeOperation = 'source-over'
+  ctx.strokeStyle = color
+  ctx.fillStyle = color
+  ctx.shadowBlur = 0
+  ctx.shadowColor = 'transparent'
+  ctx.lineCap = 'round'
+  ctx.lineJoin = 'round'
+
+  // 1. Semi-translucent Chalk Core (lets blackboard texture show through)
+  ctx.globalAlpha = 0.62
+  ctx.lineWidth = width * 0.72
+  ctx.beginPath()
+  ctx.moveTo(p1.x, p1.y)
+  ctx.lineTo(p2.x, p2.y)
+  ctx.stroke()
+
+  // 2. Dual parallel rough edge strands (gives chalk stick striated texture)
+  ctx.lineWidth = width * 0.32
+  ctx.globalAlpha = 0.38
+  const offset1 = width * 0.28
+  ctx.beginPath()
+  ctx.moveTo(p1.x + nx * offset1, p1.y + ny * offset1)
+  ctx.lineTo(p2.x + nx * offset1, p2.y + ny * offset1)
+  ctx.stroke()
+
+  const offset2 = -width * 0.28
+  ctx.beginPath()
+  ctx.moveTo(p1.x + nx * offset2, p1.y + ny * offset2)
+  ctx.lineTo(p2.x + nx * offset2, p2.y + ny * offset2)
+  ctx.stroke()
+
+  // 3. Crisp chalk powder grains (calcium carbonate granules adhering to slate tooth)
+  const rng = { seed: chalkSeed(p1.x, p1.y, p2.x, p2.y) }
+  const step = 2.2
+  const steps = Math.max(1, Math.floor(dist / step))
+
+  for (let s = 0; s <= steps; s++) {
+    const t = s / steps
+    const cx = p1.x + dx * t
+    const cy = p1.y + dy * t
+
+    for (let g = 0; g < 3; g++) {
+      const lateral = (nextRandom(rng) - 0.5) * width * 1.3
+      const longitudinal = (nextRandom(rng) - 0.5) * 1.6
+      const px = cx + nx * lateral + (dx / dist) * longitudinal
+      const py = cy + ny * lateral + (dy / dist) * longitudinal
+      const grainSize = 0.75 + nextRandom(rng) * 0.7
+      ctx.globalAlpha = 0.25 + nextRandom(rng) * 0.52
+      ctx.fillRect(px - grainSize / 2, py - grainSize / 2, grainSize, grainSize)
+    }
+  }
+
+  ctx.restore()
+}
+
 function drawStrokeOnCtx(
   ctx: CanvasRenderingContext2D,
   points: Point[],
@@ -52,51 +181,52 @@ function drawStrokeOnCtx(
   isEraser: boolean
 ) {
   if (points.length === 0) return
-  ctx.save()
 
   if (isEraser) {
+    ctx.save()
     ctx.globalCompositeOperation = 'destination-out'
     ctx.strokeStyle = 'rgba(0,0,0,1)'
     ctx.lineWidth = width
     ctx.lineCap = 'round'
     ctx.lineJoin = 'round'
-  } else {
-    ctx.globalCompositeOperation = 'source-over'
-    ctx.strokeStyle = color
-    ctx.lineWidth = width
-    ctx.lineCap = 'round'
-    ctx.lineJoin = 'round'
-    ctx.shadowColor = color
-    ctx.shadowBlur = 2.5
-  }
+    ctx.shadowBlur = 0
+    ctx.shadowColor = 'transparent'
 
-  if (points.length === 1) {
-    ctx.beginPath()
-    ctx.arc(points[0].x, points[0].y, width / 2, 0, Math.PI * 2)
-    ctx.fillStyle = isEraser ? 'rgba(0,0,0,1)' : color
-    ctx.fill()
-  } else {
-    ctx.beginPath()
-    ctx.moveTo(points[0].x, points[0].y)
-    for (let i = 1; i < points.length - 1; i++) {
-      const xc = (points[i].x + points[i + 1].x) / 2
-      const yc = (points[i].y + points[i + 1].y) / 2
-      ctx.quadraticCurveTo(points[i].x, points[i].y, xc, yc)
+    if (points.length === 1) {
+      ctx.beginPath()
+      ctx.arc(points[0].x, points[0].y, width / 2, 0, Math.PI * 2)
+      ctx.fillStyle = 'rgba(0,0,0,1)'
+      ctx.fill()
+    } else {
+      ctx.beginPath()
+      ctx.moveTo(points[0].x, points[0].y)
+      for (let i = 1; i < points.length - 1; i++) {
+        const xc = (points[i].x + points[i + 1].x) / 2
+        const yc = (points[i].y + points[i + 1].y) / 2
+        ctx.quadraticCurveTo(points[i].x, points[i].y, xc, yc)
+      }
+      const last = points[points.length - 1]
+      ctx.lineTo(last.x, last.y)
+      ctx.stroke()
     }
-    const last = points[points.length - 1]
-    ctx.lineTo(last.x, last.y)
-    ctx.stroke()
-  }
 
-  // Faint chalk dust trace for realistic blackboard eraser smudge
-  if (isEraser) {
+    // Faint chalk dust trace for realistic blackboard eraser smudge
     ctx.globalCompositeOperation = 'source-over'
     ctx.strokeStyle = 'rgba(242, 240, 232, 0.035)'
     ctx.lineWidth = width * 0.85
     ctx.stroke()
+    ctx.restore()
+    return
   }
 
-  ctx.restore()
+  // Draw authentic chalk line
+  if (points.length === 1) {
+    drawChalkDot(ctx, points[0].x, points[0].y, color, width)
+  } else {
+    for (let i = 0; i < points.length - 1; i++) {
+      drawChalkSegment(ctx, points[i], points[i + 1], color, width)
+    }
+  }
 }
 
 interface ChalkBoardInteractiveProps {
@@ -283,13 +413,17 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
         const dpr = Math.min(window.devicePixelRatio || 1, 2)
         ctx.save()
         ctx.scale(dpr, dpr)
-        drawStrokeOnCtx(
-          ctx,
-          [pt],
-          chalkColor,
-          tool === 'eraser' ? 44 : 3.6,
-          tool === 'eraser'
-        )
+        if (tool === 'eraser') {
+          drawStrokeOnCtx(
+            ctx,
+            [pt],
+            chalkColor,
+            44,
+            true
+          )
+        } else {
+          drawChalkDot(ctx, pt.x, pt.y, chalkColor, 3.6)
+        }
         ctx.restore()
       }
     }
@@ -320,6 +454,8 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
           ctx.lineWidth = 44
           ctx.lineCap = 'round'
           ctx.lineJoin = 'round'
+          ctx.shadowBlur = 0
+          ctx.shadowColor = 'transparent'
           ctx.beginPath()
           ctx.moveTo(lastPt.x, lastPt.y)
           ctx.lineTo(pt.x, pt.y)
@@ -331,17 +467,7 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
           ctx.lineWidth = 38
           ctx.stroke()
         } else {
-          ctx.globalCompositeOperation = 'source-over'
-          ctx.strokeStyle = chalkColor
-          ctx.lineWidth = 3.6
-          ctx.lineCap = 'round'
-          ctx.lineJoin = 'round'
-          ctx.shadowColor = chalkColor
-          ctx.shadowBlur = 2.5
-          ctx.beginPath()
-          ctx.moveTo(lastPt.x, lastPt.y)
-          ctx.lineTo(pt.x, pt.y)
-          ctx.stroke()
+          drawChalkSegment(ctx, lastPt, pt, chalkColor, 3.6)
         }
         ctx.restore()
       }
