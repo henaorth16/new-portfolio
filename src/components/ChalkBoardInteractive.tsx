@@ -66,6 +66,8 @@ function drawStrokeOnCtx(
     ctx.lineWidth = width
     ctx.lineCap = 'round'
     ctx.lineJoin = 'round'
+    ctx.shadowColor = color
+    ctx.shadowBlur = 2.5
   }
 
   if (points.length === 1) {
@@ -299,6 +301,8 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
           ctx.lineWidth = 3.6
           ctx.lineCap = 'round'
           ctx.lineJoin = 'round'
+          ctx.shadowColor = chalkColor
+          ctx.shadowBlur = 2.5
           ctx.beginPath()
           ctx.moveTo(lastPt.x, lastPt.y)
           ctx.lineTo(pt.x, pt.y)
@@ -484,7 +488,6 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
         className="absolute inset-0 pointer-events-none w-full z-30"
         style={{
           height: dimensions.h,
-          filter: 'url(#chalk)',
         }}
       />
 

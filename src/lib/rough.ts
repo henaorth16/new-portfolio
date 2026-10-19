@@ -31,9 +31,22 @@ export function roughRectPath(
   const o = () => r() * overshoot
   const p = 2
   const line = (x1: number, y1: number, x2: number, y2: number): string => {
-    const mx = (x1 + x2) / 2 + j(wobble * 1.4)
-    const my = (y1 + y2) / 2 + j(wobble * 1.4)
-    return `M${f(x1 + j())} ${f(y1 + j())} Q${f(mx)} ${f(my)} ${f(x2 + j())} ${f(y2 + j())}`
+    const dx = x2 - x1
+    const dy = y2 - y1
+    const len = Math.hypot(dx, dy)
+    if (len < 60) {
+      const mx = (x1 + x2) / 2 + j(wobble * 1.5)
+      const my = (y1 + y2) / 2 + j(wobble * 1.5)
+      return `M${f(x1 + j())} ${f(y1 + j())} Q${f(mx)} ${f(my)} ${f(x2 + j())} ${f(y2 + j())}`
+    }
+    // Subdivide into natural organic hand-drawn curves
+    const midX = (x1 + x2) / 2 + j(wobble * 1.3)
+    const midY = (y1 + y2) / 2 + j(wobble * 1.3)
+    const c1x = x1 + dx * 0.25 + j(wobble * 1.6)
+    const c1y = y1 + dy * 0.25 + j(wobble * 1.6)
+    const c2x = x1 + dx * 0.75 + j(wobble * 1.6)
+    const c2y = y1 + dy * 0.75 + j(wobble * 1.6)
+    return `M${f(x1 + j())} ${f(y1 + j())} Q${f(c1x)} ${f(c1y)} ${f(midX)} ${f(midY)} Q${f(c2x)} ${f(c2y)} ${f(x2 + j())} ${f(y2 + j())}`
   }
   return [
     line(p - o(), p, w - p + o(), p),

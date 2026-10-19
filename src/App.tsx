@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { images, profile } from './data'
 import { useScrollSpy } from './lib/hooks'
-import { ChalkBorder, ChalkDefs, ChalkLine } from './components/Chalk'
+import { ChalkDefs, ChalkLine } from './components/Chalk'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import Projects from './components/Projects'
@@ -77,13 +77,6 @@ export default function App() {
         />
         <div className="fixed inset-0 z-0 pointer-events-none backdrop-vignette" aria-hidden="true" />
 
-        {/* Chalk frame around the whole screen */}
-        <div
-          className="fixed inset-2 md:inset-3.5 z-20 pointer-events-none text-chalk-2 overflow-hidden"
-          aria-hidden="true"
-        >
-          <ChalkBorder seed={7} wobble={1.8} />
-        </div>
 
         <ChalkBoardInteractive>
           <div className="relative z-10 max-w-[1290px] mx-auto px-pad pt-3.5 pb-7">

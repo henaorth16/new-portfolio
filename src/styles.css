@@ -66,17 +66,25 @@ body {
 }
 
 /* ───────── Chalk Effects ───────── */
-.chalk-icon,
-.chalk-art {
+.chalk-icon {
+  overflow: visible;
+}
+
+/* Key decorative accents only */
+.chalk-art,
+.chalk-accent,
+.underline-svg {
   filter: url(#chalk);
   overflow: visible;
 }
 
+/* Titles: realistic chalk texture with gentle grain & subtle bloom */
 .chalky {
-  filter: url(#chalk);
-  text-shadow: 0 0 1px rgba(255, 255, 255, 0.55), 0 0 10px rgba(255, 255, 255, 0.1);
+  filter: url(#chalk-soft);
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.6), 0 0 8px rgba(255, 255, 255, 0.12);
 }
 
+/* ChalkBorder: authentic hand-drawn chalk strokes with organic wobble & dusty edges */
 .chalk-border {
   stroke-width: 2.2;
   filter: url(#chalk);
@@ -87,19 +95,16 @@ body {
   opacity: 0.5;
 }
 
+/* ChalkLine: authentic hand-drawn chalk divider lines */
 .chalk-line {
   stroke: var(--chalk-2);
-  stroke-width: 2;
+  stroke-width: 2.2;
   filter: url(#chalk);
 }
 
 .chalk-line .faint {
-  stroke-width: 1;
-  opacity: 0.45;
-}
-
-.underline-svg {
-  filter: url(#chalk);
+  stroke-width: 1.1;
+  opacity: 0.5;
 }
 
 /* ───────── Reveal / Draw Animations ───────── */

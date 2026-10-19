@@ -38,7 +38,7 @@ export interface Experience {
 const BASE = import.meta.env.BASE_URL
 
 export const images = {
-  background: `${BASE}background.jpg`,
+  background: `${BASE}background.webp`,
   hero: `${BASE}hero-image2.png`,
 }
 
@@ -86,7 +86,7 @@ export const projects: Project[] = [
   {
     title: 'Anágnosi DOCX Viewer',
     icon: 'doc',
-    blurb: 'Distraction-free Microsoft Word (.docx) document viewer running in-browser and as a browser extension.',
+    blurb: 'Distraction-free Microsoft office (.docx, .xlsx, .ppt, .rtf) document viewer/reader running in-browser and a browser extension firefox and chrome.',
     tags: ['React', 'Vite', 'WebExtension API'],
     url: 'https://anagnosi.vercel.app/',
     date: 'May 2026',

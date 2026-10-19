@@ -7,27 +7,20 @@ export function ChalkDefs() {
     <svg width="0" height="0" className="absolute" aria-hidden="true" focusable="false">
       <defs>
         {/* Strokes: wobble the edge, then knock out tiny specks so it looks dusty. */}
-        <filter id="chalk" x="-5%" y="-5%" width="110%" height="110%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="3" result="warp" />
-          <feDisplacementMap in="SourceGraphic" in2="warp" scale="3.2" result="wobbly" />
-          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="8" result="grain" />
-          <feColorMatrix
-            in="grain"
-            type="matrix"
-            values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3 0 0 0 -0.75"
-            result="speckle"
-          />
-          <feComposite in="wobbly" in2="speckle" operator="in" />
+        {/* Fast Authentic Chalk Filter for borders & accents: instant single-pass GPU displacement */}
+        <filter id="chalk" x="-3%" y="-4%" width="106%" height="108%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="1" seed="3" result="warp" />
+          <feDisplacementMap in="SourceGraphic" in2="warp" scale="2.4" />
         </filter>
-        {/* Text: much gentler, so handwriting stays readable. */}
-        <filter id="chalk-soft" x="-2%" y="-10%" width="104%" height="120%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="5" result="warp" />
-          <feDisplacementMap in="SourceGraphic" in2="warp" scale="1.6" result="wobbly" />
-          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="2" result="grain" />
+        {/* Soft Chalk Filter for titles: realistic subtle grain without destroying legibility */}
+        <filter id="chalk-soft" x="-4%" y="-12%" width="108%" height="124%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="1" seed="5" result="warp" />
+          <feDisplacementMap in="SourceGraphic" in2="warp" scale="1.4" result="wobbly" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="2" result="grain" />
           <feColorMatrix
             in="grain"
             type="matrix"
-            values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3 0 0 0 -0.45"
+            values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  2.4 0 0 0 -0.4"
             result="speckle"
           />
           <feComposite in="wobbly" in2="speckle" operator="in" />
