@@ -11,7 +11,7 @@ import { Contact, Skills } from './components/Sidebar'
 import Loader from './components/Loader'
 import ChalkBoardInteractive from './components/ChalkBoardInteractive'
 
-const SECTION_IDS = ['home', 'projects', 'about', 'skills', 'contact']
+const SECTION_IDS = ['home', 'projects', 'skills', 'contact', 'about']
 
 export default function App() {
   const [active, navigate] = useScrollSpy(SECTION_IDS)
@@ -91,13 +91,18 @@ export default function App() {
               <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_8px_minmax(240px,0.38fr)] gap-5 md:gap-[clamp(20px,3vw,40px)] px-1.5 pt-6 md:pt-[clamp(24px,4vw,40px)] pb-1">
                 <div className="min-w-0">
                   <Projects />
-                  <About />
                 </div>
                 <ChalkLine vertical seed={2} className="hidden lg:block self-stretch" />
                 <aside className="flex flex-col gap-8 md:gap-[clamp(30px,4vw,48px)] min-w-0">
                   <Skills />
                   <Contact />
                 </aside>
+              </div>
+
+              <ChalkLine seed={3} className="my-8 md:my-14" />
+
+              <div className="px-1.5 pb-8">
+                <About />
               </div>
             </main>
 

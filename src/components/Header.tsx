@@ -6,9 +6,9 @@ import { Icon } from './Icon'
 const links: [string, string][] = [
   ['home', 'Home'],
   ['projects', 'Projects'],
-  ['about', 'About'],
   ['skills', 'Skills'],
   ['contact', 'Contact'],
+  ['about', 'About'],
 ]
 
 export interface HeaderProps {

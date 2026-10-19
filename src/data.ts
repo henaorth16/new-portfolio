@@ -36,6 +36,40 @@ export interface Experience {
   place: string
   dates: string
   note: string
+  technologies?: string[]
+}
+
+export interface Highlight {
+  value: string
+  label: string
+  note: string
+}
+
+export interface Principle {
+  title: string
+  description: string
+}
+
+export interface EducationDetail {
+  degree: string
+  institution: string
+  location: string
+  dates: string
+  highlights: string[]
+  platforms: string[]
+}
+
+export interface Interest {
+  label: string
+  desc: string
+}
+
+export interface Certificate {
+  title: string
+  issuer: string
+  url: string
+  date?: string
+  credentialId?: string
 }
 
 const BASE = import.meta.env.BASE_URL
@@ -180,17 +214,119 @@ export const experience: Experience[] = [
     place: 'Nehemiah (EOTC) Open Source Community',
     dates: 'Aug 2025 – Present',
     note: 'Frontend for the EOTC Bible web app: API integration, UI and SEO.',
+    technologies: ['Next.js', 'Shadcn UI', 'TypeScript', 'SEO'],
   },
   {
     role: 'Full-Stack Developer',
     place: 'Solomon Habeshan Clothes, Addis Ababa',
     dates: 'Mar 2024 – Jul 2024',
     note: 'Faster, responsive Next.js storefront with Chapa payments.',
+    technologies: ['Next.js', 'Chapa API', 'Tailwind CSS', 'Responsive UI'],
   },
   {
     role: 'Front-End Developer',
     place: 'Infinite Solutions, Remote',
     dates: 'Jan 2022 – Jun 2023',
     note: 'Responsive React apps, API integrations and performance work.',
+    technologies: ['React', 'REST APIs', 'State Management', 'Web Perf'],
+  },
+]
+
+export const highlights: Highlight[] = [
+  {
+    value: '3+ Years',
+    label: 'Engineering Web Apps',
+    note: 'Modern React, Next.js, Node & Python',
+  },
+  {
+    value: '10+ Projects',
+    label: 'Shipped & Maintained',
+    note: 'From 3D canvas math games to full-stack portals',
+  },
+  {
+    value: 'Open Source',
+    label: 'npm Author & Contributor',
+    note: 'Published Ethiopian calendar date picker for React',
+  },
+  {
+    value: 'Worldwide',
+    label: 'Addis Ababa & Remote',
+    note: 'Available for high-impact teams & projects',
+  },
+]
+
+export const principles: Principle[] = [
+  {
+    title: 'Performance & Responsiveness First',
+    description:
+      'Fast software respects the user’s time. I craft lean bundles, smooth animations, and zero-jank responsive interfaces that look great on any device.',
+  },
+  {
+    title: 'Modern & Agentic Engineering',
+    description:
+      'I stay at the frontier of developer tooling. combining strong TypeScript strictness with AI agents and modern frameworks to ship robust features rapidly.',
+  },
+  {
+    title: 'Cultural & Community Impact',
+    description:
+      'Passionate about solving localized problems with global software standards. like localized calendar systems, church archives, and regional payment gateways.',
+  },
+]
+
+export const educationDetails: EducationDetail = {
+  degree: 'BSc in Information Technology',
+  institution: 'Microlink Information Technology College',
+  location: 'Addis Ababa, Ethiopia',
+  dates: '2022 – 2026',
+  highlights: [
+    'Focused on Software Engineering, Data Structures & Algorithms, and Database Architecture.',
+    'Led multiple team capstones integrating modern web stacks and regional payments.',
+  ],
+  platforms: ['freeCodeCamp', 'Udemy', 'MDN Web Docs', 'Open Source Ecosystem'],
+}
+
+export const interests: Interest[] = [
+  {
+    label: 'Traditional Ethiopian Coffee',
+    desc: 'Thinking through architecture over fresh buna brews',
+  },
+  {
+    label: 'Math & Canvas Physics',
+    desc: 'Simulating mechanical gears, 3D math & interactive canvas games',
+  },
+  {
+    label: 'Scripture & Heritage',
+    desc: 'Digitizing and preserving ancient Ge’ez texts and church feast systems',
+  },
+  {
+    label: 'Creative UI & Dev Tools',
+    desc: 'Building reusable libraries and experimenting with fresh web aesthetics',
+  },
+]
+
+export const certificates: Certificate[] = [
+  {
+    title: 'JavaScript Algorithms and Data Structures',
+    issuer: 'freeCodeCamp',
+    url: 'https://www.freecodecamp.org/certification/henaorth/javascript-algorithms-and-data-structures',
+  },
+  {
+    title: 'Responsive Web Design',
+    issuer: 'freeCodeCamp',
+    url: 'https://www.freecodecamp.org/certification/henaorth/responsive-web-design',
+  },
+  {
+    title: 'C++ Training Crash Course for Beginners',
+    issuer: 'Udemy',
+    url: 'https://www.udemy.com/certificate/UC-b886a8df-9a76-4030-aa09-49e9c7b0cb28/',
+    date: 'Oct 2024',
+    credentialId: 'UC-b886a8df-9a76-4030-aa09-49e9c7b0cb28',
+  },
+  {
+    title: 'HTML5 & CSS3 Complete Course: Build Websites like a Pro',
+    issuer: 'Udemy',
+    url: 'https://www.udemy.com/certificate/UC-8dc2edaf-bff8-4da4-9d1e-5069fec0f2fe/',
+    date: 'Dec 2024',
+    credentialId: 'UC-8dc2edaf-bff8-4da4-9d1e-5069fec0f2fe',
   },
 ]
