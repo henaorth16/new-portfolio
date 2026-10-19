@@ -122,17 +122,15 @@ export default function Header({ active, onNavigate }: HeaderProps) {
 
       <header
         ref={headerRef}
-        className={`sticky top-0 z-[25] transition-all duration-300 ease-in-out px-2 md:px-4 -mx-2 md:-mx-4 ${
-          !isVisible && !isOpen
+        className={`sticky top-0 z-[25] transition-all duration-300 ease-in-out px-2 md:px-4 -mx-2 md:-mx-4 ${!isVisible && !isOpen
             ? '-translate-y-full pointer-events-none'
             : 'translate-y-3 pointer-events-auto'
-        } ${
-          isOpen
+          } ${isOpen
             ? 'bg-board/95 backdrop-blur-md shadow-xl shadow-black/40 rounded-b-xl pt-3 md:pt-5'
             : isScrolled
-            ? 'bg-board/40 backdrop-blur-md shadow-lg shadow-black/30 rounded-b-xl pt-2.5 md:pt-3.5'
-            : 'bg-transparent backdrop-blur-none pt-3 md:pt-6'
-        }`}
+              ? 'bg-board/40 backdrop-blur-md shadow-lg shadow-black/30 rounded-b-xl pt-2.5 md:pt-3.5'
+              : 'bg-transparent backdrop-blur-none pt-3 md:pt-6'
+          }`}
       >
         <div className="flex items-center justify-between gap-x-4 px-1.5 pb-2.5 md:pb-3.5">
           <a
@@ -151,9 +149,8 @@ export default function Header({ active, onNavigate }: HeaderProps) {
                 <li key={id}>
                   <a
                     href={`#${id}`}
-                    className={`relative inline-block px-0.5 pt-0.5 pb-1.5 text-[1.2rem] transition-colors duration-200 ${
-                      active === id ? 'text-chalk font-semibold' : 'text-chalk-2 hover:text-chalk'
-                    }`}
+                    className={`relative inline-block px-0.5 pt-0.5 pb-1.5 text-[1.2rem] transition-colors duration-200 ${active === id ? 'text-chalk font-semibold' : 'text-chalk-2 hover:text-chalk'
+                      }`}
                     aria-current={active === id ? 'true' : undefined}
                     onClick={() => onNavigate(id)}
                   >
@@ -169,7 +166,7 @@ export default function Header({ active, onNavigate }: HeaderProps) {
           <button
             type="button"
             onClick={() => setIsOpen((prev) => !prev)}
-            className="md:hidden relative z-20 flex items-center justify-center w-10 h-10 text-chalk hover:text-yellow active:scale-95 transition-all cursor-pointer rounded-lg border border-chalk/30 bg-board/60 backdrop-blur-sm focus:outline-none focus-visible:outline-2 focus-visible:outline-dashed focus-visible:outline-yellow"
+            className="md:hidden relative z-20 flex items-center justify-center w-10 h-10 text-chalk hover:text-red active:scale-95 transition-all cursor-pointer rounded-lg border border-chalk/30 bg-board/60 backdrop-blur-sm focus:outline-none focus-visible:outline-2 focus-visible:outline-dashed focus-visible:outline-red"
             aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={isOpen}
             aria-controls="mobile-navigation"
@@ -202,11 +199,10 @@ export default function Header({ active, onNavigate }: HeaderProps) {
         {/* Mobile Drawer Navigation */}
         <div
           id="mobile-navigation"
-          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            isOpen
+          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${isOpen
               ? 'max-h-[520px] opacity-100 pb-4'
               : 'max-h-0 opacity-0 pointer-events-none'
-          }`}
+            }`}
         >
           <ChalkLine seed={3} className="w-full mb-2 opacity-50" />
 
@@ -219,18 +215,17 @@ export default function Header({ active, onNavigate }: HeaderProps) {
                     <a
                       href={`#${id}`}
                       onClick={() => handleNavClick(id)}
-                      className={`flex items-center justify-between px-3.5 py-2.5 rounded-lg text-[1.35rem] font-hand tracking-wide transition-all duration-150 ${
-                        isActive
+                      className={`flex items-center justify-between px-3.5 py-2.5 rounded-lg text-[1.35rem] font-hand tracking-wide transition-all duration-150 ${isActive
                           ? 'text-chalk bg-chalk/10 font-bold'
                           : 'text-chalk-2 hover:text-chalk hover:bg-chalk/5'
-                      }`}
+                        }`}
                       aria-current={isActive ? 'page' : undefined}
                     >
                       <span className="relative">
                         {label}
                         {isActive && <Underline variant={index % 3} className="always" />}
                       </span>
-                      
+
                     </a>
                   </li>
                 )
@@ -243,7 +238,7 @@ export default function Header({ active, onNavigate }: HeaderProps) {
             <a
               href={profile.cv}
               download
-              className="inline-flex items-center gap-1.5 text-[1.05rem] font-body text-chalk-2 hover:text-yellow border-b border-dashed border-chalk-3 pb-0.5 transition-colors"
+              className="inline-flex items-center gap-1.5 text-[1.05rem] font-body text-chalk-2 hover:text-red border-b border-dashed border-chalk-3 pb-0.5 transition-colors"
             >
               <Icon name="download" size={17} />
               <span>Download CV</span>
@@ -258,7 +253,7 @@ export default function Header({ active, onNavigate }: HeaderProps) {
                     aria-label={s.name}
                     target={s.url.startsWith('http') ? '_blank' : undefined}
                     rel="noreferrer"
-                    className="text-chalk-2 hover:text-yellow transition-all duration-200 hover:-translate-y-0.5"
+                    className="text-chalk-2 hover:text-red transition-all duration-200 hover:-translate-y-0.5"
                   >
                     <Icon name={s.icon} size={22} />
                   </a>

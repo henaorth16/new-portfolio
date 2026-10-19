@@ -24,7 +24,7 @@ interface EraseStroke {
 
 const CHALK_COLORS = [
   { name: 'White', value: '#f2f0e8' },
-  { name: 'Warm Yellow', value: '#f38a8a' },
+  { name: 'Warm red', value: '#f38a8a' },
   { name: 'Sky Chalk', value: '#93c5fd' },
 ]
 
@@ -122,6 +122,7 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
   const isDrawingRef = useRef(false)
   const currentPointsRef = useRef<Point[]>([])
   const containerRef = useRef<HTMLDivElement | null>(null)
+  const contentRef = useRef<HTMLDivElement | null>(null)
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const cursorRef = useRef<HTMLDivElement | null>(null)
   const [dimensions, setDimensions] = useState({ w: 1200, h: 2000 })
@@ -181,33 +182,41 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
     ctx.restore()
   }, [])
 
-  // Keep dimensions synced with full page height & width
+  // Keep dimensions synced with actual DOM content height & width
   useEffect(() => {
-    const el = containerRef.current
-    if (!el) return
+    const contentEl = contentRef.current
+    const containerEl = containerRef.current
+    if (!contentEl || !containerEl) return
+
     const update = () => {
-      const scrollH = Math.max(
-        document.documentElement.scrollHeight,
-        document.body.scrollHeight,
-        el.scrollHeight,
-        el.offsetHeight
-      )
-      const w = el.offsetWidth || window.innerWidth
-      setDimensions({ w, h: scrollH })
+      // Derive true height strictly from normal-flow DOM content, NOT from absolute canvas/svg
+      const h = Math.ceil(contentEl.offsetHeight || contentEl.getBoundingClientRect().height)
+      const w = containerEl.offsetWidth || window.innerWidth
+      if (h <= 0 || w <= 0) return
+
+      setDimensions((prev) => {
+        if (prev.w === w && prev.h === h) return prev
+        return { w, h }
+      })
 
       const canvas = canvasRef.current
       if (canvas) {
         const dpr = Math.min(window.devicePixelRatio || 1, 2)
-        canvas.width = Math.floor(w * dpr)
-        canvas.height = Math.floor(scrollH * dpr)
-        canvas.style.width = `${w}px`
-        canvas.style.height = `${scrollH}px`
-        redrawCanvas(actionsRef.current)
+        const targetW = Math.floor(w * dpr)
+        const targetH = Math.floor(h * dpr)
+        if (canvas.width !== targetW || canvas.height !== targetH) {
+          canvas.width = targetW
+          canvas.height = targetH
+          canvas.style.width = `${w}px`
+          canvas.style.height = `${h}px`
+          redrawCanvas(actionsRef.current)
+        }
       }
     }
+
     update()
     const ro = new ResizeObserver(update)
-    ro.observe(el)
+    ro.observe(contentEl)
     window.addEventListener('resize', update)
     return () => {
       ro.disconnect()
@@ -258,8 +267,8 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
     if (e.button !== 0) return
     e.preventDefault()
     try {
-      ;(e.target as HTMLElement).setPointerCapture(e.pointerId)
-    } catch {}
+      ; (e.target as HTMLElement).setPointerCapture(e.pointerId)
+    } catch { }
 
     isDrawingRef.current = true
     setIsDrawing(true)
@@ -383,15 +392,15 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
 
   const handlePointerUp = (e: React.PointerEvent) => {
     try {
-      ;(e.target as HTMLElement).releasePointerCapture(e.pointerId)
-    } catch {}
+      ; (e.target as HTMLElement).releasePointerCapture(e.pointerId)
+    } catch { }
     finishStroke()
   }
 
   const handlePointerCancel = (e: React.PointerEvent) => {
     try {
-      ;(e.target as HTMLElement).releasePointerCapture(e.pointerId)
-    } catch {}
+      ; (e.target as HTMLElement).releasePointerCapture(e.pointerId)
+    } catch { }
     finishStroke()
   }
 
@@ -429,7 +438,7 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
   return (
     <div
       ref={containerRef}
-      className="relative w-full min-h-screen"
+      className="relative w-full"
       style={{
         cursor: tool !== 'browse' ? 'none' : undefined,
       }}
@@ -489,6 +498,7 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
         Notice: User chalk is NOT inside this mask, so visitors can draw and redraw over erased spots freely!
       */}
       <div
+        ref={contentRef}
         className="relative z-10 w-full"
         style={{
           mask: hasDomErasures ? 'url(#dom-content-eraser-mask)' : undefined,
@@ -646,7 +656,7 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
                       'repeating-linear-gradient(90deg, #1b1c1c, #1b1c1c 5px, #3a3b3b 5px, #3a3b3b 8px)',
                   }}
                 />
-                
+
               </div>
             </div>
           )}
@@ -662,7 +672,7 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
           {/* Status Tooltip / Hint when drawing tool is active */}
           {isOpen && tool !== 'browse' && (
             <div className="bg-board/95 text-chalk text-xs px-3 py-1.5 rounded-xl border border-chalk/20 shadow-lg backdrop-blur-md animate-fade-in flex items-center gap-2 font-body">
-              <span className="w-2 h-2 rounded-full bg-yellow" />
+              <span className="w-2 h-2 rounded-full bg-red" />
               <span>
                 {tool === 'chalk'
                   ? 'Chalk Active: Click & drag to draw • Press Esc to browse'
@@ -685,16 +695,16 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
               onClick={() => {
                 setIsOpen(true)
               }}
-              className="group flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-board/90 hover:bg-board border border-chalk/25 hover:border-yellow text-chalk hover:text-yellow shadow-[0_8px_24px_rgba(0,0,0,0.55)] backdrop-blur-md transition-all duration-200 cursor-pointer active:scale-95"
+              className="group flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-board/90 hover:bg-board border border-chalk/25 hover:border-red text-chalk hover:text-red shadow-[0_8px_24px_rgba(0,0,0,0.55)] backdrop-blur-md transition-all duration-200 cursor-pointer active:scale-95"
               title="Open blackboard drawing tools (Press C)"
             >
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-200 group-hover:-rotate-12 text-yellow">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-200 group-hover:-rotate-12 text-red">
                 <path d="m18 2 4 4-12 12H6v-4L18 2z" />
                 <path d="m15 5 3 3" />
               </svg>
               <span className="font-display text-sm tracking-wide">Draw on Board</span>
               {actions.length > 0 && (
-                <span className="w-2 h-2 rounded-full bg-yellow" title="Board has active drawings" />
+                <span className="w-2 h-2 rounded-full bg-red" title="Board has active drawings" />
               )}
             </button>
           ) : (
@@ -705,11 +715,10 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
                 type="button"
                 onClick={() => setTool('browse')}
                 title="Browse Mode (Esc) — Click links and navigate"
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-display transition-all cursor-pointer ${
-                  tool === 'browse'
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-display transition-all cursor-pointer ${tool === 'browse'
                     ? 'bg-chalk/15 text-chalk font-semibold border border-chalk/30 shadow-inner'
                     : 'text-chalk-2 hover:bg-chalk/10 hover:text-chalk'
-                }`}
+                  }`}
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="m3 3 7.07 16.97 2.51-7.39 7.39-2.51L3 3z" />
@@ -725,11 +734,10 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
                 type="button"
                 onClick={() => setTool('chalk')}
                 title="Chalk (C) — Draw in chalk on the blackboard"
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-display transition-all cursor-pointer ${
-                  tool === 'chalk'
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-display transition-all cursor-pointer ${tool === 'chalk'
                     ? 'bg-chalk/15 text-chalk font-semibold border border-chalk/30 shadow-inner'
                     : 'text-chalk-2 hover:bg-chalk/10 hover:text-chalk'
-                }`}
+                  }`}
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="m18 2 4 4-12 12H6v-4L18 2z" />
@@ -749,11 +757,10 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
                       setTool('chalk')
                     }}
                     title={`${c.name} Chalk`}
-                    className={`w-3.5 h-3.5 rounded-full transition-transform cursor-pointer border ${
-                      chalkColor === c.value && tool === 'chalk'
+                    className={`w-3.5 h-3.5 rounded-full transition-transform cursor-pointer border ${chalkColor === c.value && tool === 'chalk'
                         ? 'scale-125 border-chalk ring-1 ring-white/50'
                         : 'border-black/50 hover:scale-110 opacity-70 hover:opacity-100'
-                    }`}
+                      }`}
                     style={{ backgroundColor: c.value }}
                   />
                 ))}
@@ -766,11 +773,10 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
                 type="button"
                 onClick={() => setTool('eraser')}
                 title="Eraser (E) — Rub away letters or chalk from the blackboard"
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-display transition-all cursor-pointer ${
-                  tool === 'eraser'
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-display transition-all cursor-pointer ${tool === 'eraser'
                     ? 'bg-chalk/15 text-chalk font-semibold border border-chalk/30 shadow-inner'
                     : 'text-chalk-2 hover:bg-chalk/10 hover:text-chalk'
-                }`}
+                  }`}
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="m7 21-4.3-4.3c-1-1-1-2.5 0-3.4l9.6-9.6c1-1 2.5-1 3.4 0l5.6 5.6c1 1 1 2.5 0 3.4L13 21" />
@@ -802,7 +808,7 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
                 onClick={handleCleanBoard}
                 disabled={actions.length === 0 && !hasDomErasures}
                 title="Clean Board — Wash away all doodles & restore all erased content"
-                className="flex items-center gap-1 px-2 py-1.5 rounded-xl text-xs font-display text-yellow hover:text-yellow/90 hover:bg-yellow/10 disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
+                className="flex items-center gap-1 px-2 py-1.5 rounded-xl text-xs font-display text-red hover:text-red/90 hover:bg-red/10 disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 2v4" />

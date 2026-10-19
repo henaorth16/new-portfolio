@@ -79,14 +79,14 @@ export default function App() {
 
 
         <ChalkBoardInteractive>
-          <div className="relative z-10 max-w-[1290px] mx-auto px-pad pt-3.5 pb-7">
+          <div className="relative z-10 max-w-[1290px] mx-auto px-pad pt-3.5 pb-2">
             <Header active={active} onNavigate={navigate} />
 
             <main>
               <Hero />
               <ChalkLine seed={1} className="my-0" />
 
-              <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_8px_minmax(240px,0.38fr)] gap-5 md:gap-[clamp(20px,3vw,40px)] px-1.5 pt-6 md:pt-[clamp(24px,4vw,40px)] pb-5">
+              <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_8px_minmax(240px,0.38fr)] gap-5 md:gap-[clamp(20px,3vw,40px)] px-1.5 pt-6 md:pt-[clamp(24px,4vw,40px)] pb-1">
                 <div className="min-w-0">
                   <Projects />
                   <About />
@@ -99,7 +99,7 @@ export default function App() {
               </div>
             </main>
 
-            <footer className="flex flex-wrap justify-between gap-x-5 gap-y-2 px-1.5 pt-[22px] pb-[26px] text-chalk-3 text-[0.95rem]">
+            <footer className="flex flex-wrap justify-between gap-x-5 gap-y-2 px-1.5 pt-3 pb-2 text-chalk-3 text-[0.95rem]">
               <span>© {new Date().getFullYear()} {profile.name}</span>
               <span>Drawn in chalk, built with React.</span>
             </footer>

@@ -19,6 +19,8 @@ export interface Profile {
   socials: SocialLink[]
 }
 
+export type ProjectCategory = 'fullstack' | 'frontend' | 'interactive'
+
 export interface Project {
   title: string
   icon: string
@@ -26,6 +28,7 @@ export interface Project {
   tags: string[]
   url: string
   date?: string
+  category: ProjectCategory | ProjectCategory[]
 }
 
 export interface Experience {
@@ -74,6 +77,7 @@ export const projects: Project[] = [
     tags: ['Next.js', 'TypeScript', 'MongoDB', 'Shadcn UI'],
     url: 'https://debre-tabor-portfolio.vercel.app/',
     date: 'Jun 2026',
+    category: 'fullstack',
   },
   {
     title: 'Graphity',
@@ -82,6 +86,7 @@ export const projects: Project[] = [
     tags: ['React.js', 'Three.js', 'Vite', 'TypeScript'],
     url: 'https://graph-ity.vercel.app/',
     date: 'May 2026',
+    category: 'interactive',
   },
   {
     title: 'Anágnosi DOCX Viewer',
@@ -90,6 +95,7 @@ export const projects: Project[] = [
     tags: ['React', 'Vite', 'WebExtension API'],
     url: 'https://anagnosi.vercel.app/',
     date: 'May 2026',
+    category: 'frontend',
   },
   {
     title: 'Ethiopian Bible Web App',
@@ -98,6 +104,7 @@ export const projects: Project[] = [
     tags: ['Next.js', 'Shadcn UI', 'TypeScript'],
     url: 'https://bible.nehemiah-osc.org/',
     date: 'Sep 2025',
+    category: 'frontend',
   },
   {
     title: 'Church and Feasts',
@@ -106,6 +113,7 @@ export const projects: Project[] = [
     tags: ['Next.js', 'Prisma', 'TypeScript', 'PostgreSQL'],
     url: 'https://church-and-feasts.vercel.app',
     date: 'May 2025',
+    category: 'fullstack',
   },
   {
     title: 'Complaint Management',
@@ -114,14 +122,16 @@ export const projects: Project[] = [
     tags: ['Next.js', 'Prisma', 'TypeScript'],
     url: 'https://nextjs-complaint-system.vercel.app/',
     date: 'Jun 2024',
+    category: 'fullstack',
   },
   {
     title: 'Ethiopian Date Picker',
     icon: 'calendar',
-    blurb: 'React component showing Ethiopian and Gregorian calendars side by side.',
+    blurb: 'React component. lets react developer to add a datepicker in ethiopian date format',
     tags: ['React', 'Tailwind CSS', 'npm'],
     url: `${GH}/ethiopian-calendar-date-picker`,
     date: 'Apr 2024',
+    category: 'frontend',
   },
   {
     title: 'Amazing Gear Game',
@@ -130,6 +140,7 @@ export const projects: Project[] = [
     tags: ['JavaScript', 'HTML5 Canvas'],
     url: 'https://amazing-gear.netlify.app/',
     date: 'Dec 2023',
+    category: 'interactive',
   },
   {
     title: 'Tour & Travel Agency',
@@ -138,14 +149,16 @@ export const projects: Project[] = [
     tags: ['React', 'Tailwind CSS', 'JavaScript'],
     url: 'https://delighttourandtravel.com/',
     date: 'Jul 2023',
+    category: 'frontend',
   },
   {
     title: 'Car Rental',
     icon: 'car',
     blurb: 'Booking system with vehicle filtering, management and reservations.',
     tags: ['Express', 'React', 'PostgreSQL'],
-    url: GH,
+    url: 'https://github.com/henaorth16/car-rental-front',
     date: 'Mar 2023',
+    category: 'fullstack',
   },
 ]
 

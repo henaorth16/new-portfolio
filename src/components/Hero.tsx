@@ -19,7 +19,7 @@ export default function Hero() {
               View Projects <Icon name="arrow" size={22} />
             </ChalkBox>
           </a>
-          <a className="inline-flex items-center gap-2 text-[1.05rem] border-b-2 border-dashed border-chalk-3 pb-0.5 transition-colors duration-200 hover:text-yellow hover:border-yellow" href={profile.cv} download>
+          <a className="inline-flex items-center gap-2 text-[1.05rem] border-b-2 border-dashed border-chalk-3 pb-0.5 transition-colors duration-200 hover:text-red hover:border-red" href={profile.cv} download>
             Download CV <Icon name="download" size={20} />
           </a>
         </div>
@@ -55,7 +55,7 @@ export default function Hero() {
                 aria-label={s.name}
                 target={s.url.startsWith('http') ? '_blank' : undefined}
                 rel="noreferrer"
-                className="block text-chalk-2 transition-all duration-200 hover:text-yellow hover:-translate-y-[3px] hover:-rotate-[5deg]"
+                className="block text-chalk-2 transition-all duration-200 hover:text-red hover:-translate-y-[3px] hover:-rotate-[5deg]"
               >
                 <Icon name={s.icon} size={38} />
               </a>

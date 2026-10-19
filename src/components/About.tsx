@@ -63,7 +63,7 @@ export default function About() {
               <strong className="font-display font-normal text-[1.2rem]">{e.role}</strong>
               <span className="text-chalk-2"> · {e.place}</span>
             </div>
-            <div className="font-hand text-[1.3rem] text-yellow leading-[1.1]">{e.dates}</div>
+            <div className="font-hand text-[1.3rem] text-red leading-[1.1]">{e.dates}</div>
             <p className="text-chalk-2 text-[1.02rem] mt-0.5">{e.note}</p>
           </Reveal>
         ))}

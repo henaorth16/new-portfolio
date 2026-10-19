@@ -7,9 +7,8 @@ export interface LoaderProps {
 export default function Loader({ fadingOut = false }: LoaderProps) {
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-base transition-opacity duration-300 ease-out ${
-        fadingOut ? 'opacity-0 pointer-events-none' : 'opacity-100'
-      }`}
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-base transition-opacity duration-300 ease-out ${fadingOut ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        }`}
       aria-label="Loading portfolio"
     >
       <div className="flex flex-col items-center">
@@ -31,7 +30,7 @@ export default function Loader({ fadingOut = false }: LoaderProps) {
             />
           </svg>
           <svg
-            className="absolute inset-0 w-full h-full text-yellow chalk-art animate-[spin_2s_linear_infinite_reverse]"
+            className="absolute inset-0 w-full h-full text-red chalk-art animate-[spin_2s_linear_infinite_reverse]"
             viewBox="0 0 100 100"
             fill="none"
           >

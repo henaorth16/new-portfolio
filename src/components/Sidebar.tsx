@@ -32,7 +32,7 @@ export function Contact() {
           <Icon name="mail" size={24} className="shrink-0 text-chalk-2" />
           <a
             href={`mailto:${profile.email}`}
-            className="break-all border-b-2 border-dashed border-transparent transition-colors duration-200 hover:text-yellow hover:border-yellow"
+            className="break-all border-b-2 border-dashed border-transparent transition-colors duration-200 hover:text-red hover:border-red"
           >
             {profile.email}
           </a>
