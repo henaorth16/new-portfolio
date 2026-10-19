@@ -534,26 +534,26 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
           }}
           aria-hidden="true"
         >
-          {/* Realistic Chalk Stick */}
+          {/* Realistic Chalk Stick: Compact, right-side up natural angle, dynamic color */}
           {tool === 'chalk' && (
             <div
               className="relative pointer-events-none"
               style={{
-                transform: isDrawing ? 'rotate(-26deg) scale(0.96)' : 'rotate(-32deg)',
+                transform: 'rotate(151deg) scale(0.96)',
                 transformOrigin: '0% 100%',
-                marginTop: '-58px',
+                marginTop: '-44px',
                 marginLeft: '0px',
                 transition: 'transform 0.08s ease-out',
-                filter: 'drop-shadow(3px 8px 12px rgba(0,0,0,0.65))',
+                filter: 'drop-shadow(2px 5px 7px rgba(0,0,0,0.55))',
               }}
             >
               {/* Realistic 3D Cylindrical Chalk Body with Dynamic Color */}
               <div
-                className="relative w-4 h-14 rounded-t-sm overflow-hidden"
+                className="relative w-2.5 h-9 rounded-t-sm overflow-hidden"
                 style={{
                   backgroundColor: chalkColor,
                   boxShadow:
-                    'inset -3px 0 4px rgba(0,0,0,0.35), inset 2px 0 3px rgba(255,255,255,0.5), 0 0 1px rgba(0,0,0,0.3)',
+                    'inset -2px 0 3px rgba(0,0,0,0.35), inset 1.5px 0 2px rgba(255,255,255,0.5), 0 0 1px rgba(0,0,0,0.3)',
                 }}
               >
                 {/* Cylindrical 3D lighting gradient */}
@@ -565,43 +565,27 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
                   }}
                 />
 
-                {/* Chalk Wrapper Paper Band */}
-                <div className="absolute top-3.5 inset-x-0 h-5 bg-[#e4d6b6] border-y border-[#a89574] shadow-sm flex flex-col justify-center items-center">
-                  <div className="w-full h-px bg-[#7a6747] opacity-40 my-0.5" />
-                  <span className="text-[5px] font-mono tracking-tighter text-[#5c4a2c] uppercase font-bold select-none leading-none scale-90">
-                    CHALK
-                  </span>
-                  <div className="w-full h-px bg-[#7a6747] opacity-40 my-0.5" />
-                </div>
 
                 {/* Chalk powdery grain overlay */}
                 <div
                   className="absolute inset-0 opacity-20 pointer-events-none"
                   style={{
                     backgroundImage: 'radial-gradient(circle, #fff 15%, transparent 20%)',
-                    backgroundSize: '2.5px 2.5px',
+                    backgroundSize: '2px 2px',
                   }}
                 />
               </div>
 
-              {/* Slanted Beveled Drawing Tip (Drawing Contact Point) */}
+              {/* Slanted Beveled Drawing Tip (Drawing Contact Point touching 0,0) */}
               <div
-                className="relative w-4 h-3 overflow-hidden"
+                className="relative w-2.5 h-2 overflow-hidden"
                 style={{
                   backgroundColor: chalkColor,
-                  clipPath: 'polygon(0% 100%, 100% 0%, 100% 0%, 0% 0%)',
+                  clipPath: 'polygon(0% 100%, 100% 20%, 100% 0%, 0% 0%)',
                   boxShadow:
-                    'inset 2px 0 2px rgba(255,255,255,0.45), inset -2px 0 2px rgba(0,0,0,0.35)',
+                    'inset 1px 0 2px rgba(255,255,255,0.45), inset -1px 0 2px rgba(0,0,0,0.35)',
                 }}
               />
-
-              {/* Real-time contact dust speckle glow at the exact tip */}
-              {isDrawing && (
-                <div
-                  className="absolute -bottom-1 -left-1 w-3 h-3 rounded-full pointer-events-none animate-ping opacity-75"
-                  style={{ backgroundColor: chalkColor }}
-                />
-              )}
             </div>
           )}
 
@@ -610,48 +594,48 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
             <div
               className="relative select-none pointer-events-none"
               style={{
-                width: '68px',
-                height: '38px',
-                marginLeft: '-34px',
-                marginTop: '-19px',
+                width: '54px',
+                height: '30px',
+                marginLeft: '-27px',
+                marginTop: '-15px',
                 transform: isDrawing ? 'rotate(-10deg) scale(0.96)' : 'rotate(-6deg)',
                 transition: 'transform 0.08s ease-out',
-                filter: 'drop-shadow(4px 6px 9px rgba(0,0,0,0.65))',
+                filter: 'drop-shadow(3px 6px 10px rgba(0,0,0,0.6))',
               }}
             >
               {/* Hardwood Handle Block (Top Half) */}
               <div
-                className="relative w-full h-[18px] rounded-t-md overflow-hidden border border-[#482810]"
+                className="relative w-full h-[14px] rounded-t-md overflow-hidden border border-[#482810]"
                 style={{
                   background:
                     'linear-gradient(180deg, #965a25 0%, #7c4416 55%, #592d0b 100%)',
                   boxShadow:
-                    'inset 0 1.5px 2px rgba(255,255,255,0.35), inset 0 -1px 2px rgba(0,0,0,0.5)',
+                    'inset 0 1px 2px rgba(255,255,255,0.35), inset 0 -1px 2px rgba(0,0,0,0.5)',
                 }}
               >
                 {/* Finger Grip Indentation */}
-                <div className="absolute top-1 inset-x-2.5 h-1.5 rounded-full bg-[#422006] shadow-[inset_0_1px_2px_rgba(0,0,0,0.85),0_1px_1px_rgba(255,255,255,0.2)]" />
+                <div className="absolute top-1 inset-x-2 h-1 rounded-full bg-[#422006] shadow-[inset_0_1px_2px_rgba(0,0,0,0.85),0_1px_1px_rgba(255,255,255,0.2)]" />
                 {/* Wood grain streaks */}
                 <div
                   className="absolute inset-0 opacity-20 pointer-events-none"
                   style={{
                     backgroundImage:
-                      'repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(0,0,0,0.6) 4px, rgba(0,0,0,0.6) 5px)',
+                      'repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(0,0,0,0.6) 3px, rgba(0,0,0,0.6) 4px)',
                   }}
                 />
               </div>
 
               {/* Wood-to-Felt Divider Seam */}
-              <div className="w-full h-[2px] bg-[#2a1302] shadow-inner" />
+              <div className="w-full h-[1.5px] bg-[#2a1302] shadow-inner" />
 
               {/* Multi-Ply Wool Felt Layer (Bottom Half) */}
               <div
-                className="relative w-full h-[18px] rounded-b-sm overflow-hidden border border-[#1b1c1c]"
+                className="relative w-full h-[14px] rounded-b-sm overflow-hidden border border-[#1b1c1c]"
                 style={{
                   background:
                     'linear-gradient(180deg, #2b2c2c 0%, #202121 65%, #141515 100%)',
                   boxShadow:
-                    'inset 0 -2px 4px rgba(242,240,232,0.3), inset 0 1px 2px rgba(0,0,0,0.6)',
+                    'inset 0 -2px 3px rgba(242,240,232,0.3), inset 0 1px 2px rgba(0,0,0,0.6)',
                 }}
               >
                 {/* Layered Felt Strips */}
@@ -659,23 +643,11 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
                   className="absolute inset-0 opacity-45 pointer-events-none"
                   style={{
                     backgroundImage:
-                      'repeating-linear-gradient(90deg, #1b1c1c, #1b1c1c 7px, #3a3b3b 7px, #3a3b3b 11px)',
+                      'repeating-linear-gradient(90deg, #1b1c1c, #1b1c1c 5px, #3a3b3b 5px, #3a3b3b 8px)',
                   }}
                 />
-                {/* Chalk Dust Residue on bottom felt edge */}
-                <div
-                  className="absolute bottom-0 inset-x-0 h-2 opacity-70 pointer-events-none"
-                  style={{
-                    background:
-                      'linear-gradient(0deg, rgba(242,240,232,0.7) 0%, rgba(242,240,232,0.2) 60%, transparent 100%)',
-                  }}
-                />
+                
               </div>
-
-              {/* Chalk dust scrub trace during active rubbing */}
-              {isDrawing && (
-                <div className="absolute -bottom-2 -inset-x-2 h-4 rounded-full bg-chalk/15 filter blur-sm animate-pulse pointer-events-none" />
-              )}
             </div>
           )}
         </div>
@@ -690,7 +662,7 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
           {/* Status Tooltip / Hint when drawing tool is active */}
           {isOpen && tool !== 'browse' && (
             <div className="bg-board/95 text-chalk text-xs px-3 py-1.5 rounded-xl border border-chalk/20 shadow-lg backdrop-blur-md animate-fade-in flex items-center gap-2 font-body">
-              <span className="w-2 h-2 rounded-full animate-pulse bg-yellow" />
+              <span className="w-2 h-2 rounded-full bg-yellow" />
               <span>
                 {tool === 'chalk'
                   ? 'Chalk Active: Click & drag to draw • Press Esc to browse'
@@ -722,7 +694,7 @@ export default function ChalkBoardInteractive({ children }: ChalkBoardInteractiv
               </svg>
               <span className="font-display text-sm tracking-wide">Draw on Board</span>
               {actions.length > 0 && (
-                <span className="w-2 h-2 rounded-full bg-yellow animate-pulse" title="Board has active drawings" />
+                <span className="w-2 h-2 rounded-full bg-yellow" title="Board has active drawings" />
               )}
             </button>
           ) : (
