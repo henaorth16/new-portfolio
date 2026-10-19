@@ -64,6 +64,7 @@ export const profile: Profile = {
     { name: 'LinkedIn', icon: 'linkedin', url: 'https://www.linkedin.com/in/henok-emyaye-92b199252/' },
     { name: 'X', icon: 'x', url: '' },
     { name: 'Email', icon: 'mail', url: 'mailto:emyayehenok@gmail.com' },
+    { name: 'Telegram', icon: 'telegram', url: 'https://t.me/henaorth' },
   ],
 }
 
