@@ -105,7 +105,7 @@ export default function Projects() {
               seed={7}
               className="group relative flex-1 w-full flex items-start gap-4 p-5 pb-[18px] transition-[transform,color] duration-250 ease-out hover:-translate-y-1 hover:-rotate-[0.5deg]"
             >
-              <Icon name={p.icon} size={56} className="shrink-0 text-chalk mt-0.5" />
+              <Icon name={p.icon} size={56} className="shrink-0 text-[#e0e0e0] chalky mt-0.5" />
               <div className="flex-1 min-w-0 flex flex-col justify-between h-full gap-2">
                 <div>
                   <div className="flex items-baseline justify-between gap-2 mb-1">

@@ -287,7 +287,7 @@ export default function GitHubContributions() {
 
           {/* Legend: stays in place */}
           <div className="flex items-center justify-between flex-wrap gap-2 pt-3 mt-2 border-t border-dashed border-chalk-3/30 text-[0.88rem] text-chalk-3 font-hand w-full">
-            <span>Drawn daily from git commits</span>
+            <span>Figure 3:  Drawn daily from git commits</span>
             <div className="flex items-center gap-1.5">
               <span>Less</span>
               <div className="flex items-center gap-1">
