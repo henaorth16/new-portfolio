@@ -170,7 +170,7 @@ export default function GitHubContributions() {
 
       {/* ChalkBox container: stays fixed at 100% width, no page-level overflow */}
       <div ref={cardRef} className="relative w-full max-w-full">
-        <ChalkBox seed={62} wobble={1.15} className="w-full max-w-full p-3 sm:p-5 bg-board/20 relative overflow-hidden">
+        <ChalkBox seed={12} wobble={3.15} className="w-full max-w-full p-3 sm:p-5 bg-board/20 relative overflow-hidden">
           {/* Mobile scroll hint */}
           <div className="flex items-center justify-between sm:hidden pb-1 text-[0.82rem] font-hand text-chalk-3">
             <span>← Swipe horizontally for full year</span>

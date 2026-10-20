@@ -102,7 +102,7 @@ export default function Projects() {
               href={p.url}
               target="_blank"
               rel="noreferrer"
-              seed={20 + i * 7}
+              seed={7}
               className="group relative flex-1 w-full flex items-start gap-4 p-5 pb-[18px] transition-[transform,color] duration-250 ease-out hover:-translate-y-1 hover:-rotate-[0.5deg]"
             >
               <Icon name={p.icon} size={56} className="shrink-0 text-chalk mt-0.5" />
